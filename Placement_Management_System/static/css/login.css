@@ -1,0 +1,18 @@
+/* <!-- {% if user.is_authenticated %} -->
+<!-- <li class="nav-item">
+  <a class="nav-link">Hello {{username}}!</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link right" href="{% url 'logout' %}">Logout</a>
+</li>
+
+{% else %}
+<li class="nav-item">
+  <a  class="nav-link right" href="{% url 'register' %}">Register</a>
+</li>
+<li class="nav-item dropdown">
+ <a><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Sign In
+  </button>
+  </a>
+{% endif %} --> */

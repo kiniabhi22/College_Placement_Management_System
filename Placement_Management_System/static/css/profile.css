@@ -1,0 +1,32 @@
+/* style.css */
+
+table.invisible-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  table.invisible-table th,
+  table.invisible-table td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  table.invisible-table th {
+    background-color: #f0f0f0;
+  }
+  
+  table.invisible-table ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  table.invisible-table ul li {
+    margin-bottom: 5px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 30px;
+  }
+  

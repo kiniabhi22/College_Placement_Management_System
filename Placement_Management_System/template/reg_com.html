@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/regcom.css' %}">
+    <title>Registered Companies</title>
+    <style>
+        table, th, td{
+            border:1px solid black;
+            padding : 2px;
+
+        }
+        th{
+            width: 200em;
+        }
+        table{
+            margin-left:50px;
+        }
+        .dd{
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <table class="table">
+        <thead>
+            <thead>
+                <tr class="table">
+                    <th class="table-primary">SI No.</th>
+                    <th>Company</th>
+                    <th>Description</th>
+                    <th>Catagory</th>
+                    <th>Salary</th>
+                    <th>Stipend</th>
+                    <th>Job Role</th>
+                    <th>Eligible Branches</th>
+                    <th>Cut-off Aggregate</th>
+                    <th class='dd'>Job Location</th>
+                    <th class='dd'>DoD</th>
+                      
+                </tr>
+            </thead> 
+          
+        </thead>
+        <tbody>
+            {% for i in companies %}
+            <tr>
+                <th scope="col">{{ forloop.counter}}</th>
+                <th scope="col">{{i.company_name}}</th>
+                <th scope="col">{{i.desc}}</th>
+                <th scope="col">{{i.catagory}}</th>
+                <th scope="col">{{i.salary}}</th>
+                <th scope="col">{{i.stipend}}</th>
+                <th scope="col">{{i.role}}</th>
+                <th scope="col">{{i.branch}}</th>
+                <th scope="col">{{i.aggregate}}</th>
+                <th scope="col">{{i.joblocation}}</th>
+                <th class='dd'>{{i.dateofdrive}}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile</title>
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    {% include 'header.html' %}
+  <h1>Student Profile</h1>
+
+  <table class="invisible-table">
+    <thead>
+      <tr>
+        <th>Current Education Details</th>
+        <th>Past Education Details</th>
+        <th>Student Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <h2>Current Education</h2>
+         
+          <ul>
+            <li>USN: {{ detail.USN }}</li>
+            <li>First Sem GPA: {{ deatail.First_Sem_GPA }}</li>
+            <li>Second Sem GPA: {{ deatail.Second_Sem_GPA }}</li>
+            <li>Third Sem GPA: {{ deatail.Third_Sem_GPA }}</li>
+            <li>Fourth Sem GPA: {{ deatail.Fourth_Sem_GPA }}</li>
+          </ul>
+        </td>
+        <td>
+          <h2>Past Education</h2>
+          <ul>
+            <li>Past Education ID: {{ detail.Past_Education_id }}</li>
+            <li>Tenth Scheme: {{ detail.Tenth_Scheme }}</li>
+            <li>Tenth Grade: {{ detail.Tenth_Grade }}</li>
+            <li>Twelfth Scheme: {{ detail.Twelth_Scheme }}</li>
+            <li>Twelfth Grade: {{ detail.Twelth_Grade }}</li>
+            <li>KCET Rank: {{ detail.KCET_Rank }}</li>
+          </ul>
+        </td>
+        <td>
+          <h2>Student Details</h2>
+          <ul>
+            <li>USN: {{ details.USN }}</li>
+            <li>First Name: {{ detail.First_Name }}</li>
+            <li>Middle Name: {{ detail.Middle_Name }}</li>
+            <li>Last Name: {{ detail.Last_Name }}</li>
+            <li>Branch: {{ detail.Branch }}</li>
+            <li>Email: {{ detail.EMAIL }}</li>
+            <li>Contact Number: {{ detail.Contact_Number }}</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

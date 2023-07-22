@@ -1,18 +1,5 @@
 from django.db import models
-# from django import forms
-# from django.contrib.auth.models import User
-
-# Create your models here.
-
-# BRANCH_CHOICES = (
-#     ('cse','CSE'),
-#     ('ise', 'ISE'),
-#     ('aiml','AIML'),
-#     ('ece','ECE'),
-#     ('eee','EEE'),
-#     ('mech','MECHANICAL'),
-#     ('civil','CIVIL')
-# )
+from django.contrib.auth.models import User
 
 #In below tuple, the what we mention in FIRST inverted comma will be shown on DISPLAY, SECOND will be shown on ADMIN PANEL
 
@@ -50,12 +37,8 @@ class studentProfile(models.Model):
     Second_Sem_GPA=models.FloatField(max_length=10,blank=False)
     Third_Sem_GPA=models.FloatField(max_length=10,blank=False)
     Fourth_Sem_GPA=models.FloatField(max_length=10,blank=False)
-  
-    # Current_Education_Details=models.ForeignKey(max_length=100,blank=False)
-    # Past_Education_Details=models.ForeignKey(max_length=100,blank=False)
-    # Other_Details=models.ForeignKey(max_length=100,blank=False)
 
-CATAGORY=(
+CATEGORY=(
     ('IT','IT'),
     ('CORE','CORE')
 )
@@ -100,14 +83,14 @@ COMPANY = (
 
 class All_Companies(models.Model):
     ID=models.AutoField(primary_key=True)
-    company_name=models.CharField(max_length=100,choices=COMPANY,default='SAP', unique=True, blank=False)
+    company_name=models.CharField(max_length=100,choices=COMPANY,default='SAP', blank=False)
     desc=models.TextField()
     branch=models.CharField(max_length=100)
-    catagory=models.CharField(max_length=50,choices=CATAGORY,default='IT')
-    salary=models.IntegerField()
+    category=models.CharField(max_length=50,choices=CATEGORY,default='IT')
+    salary=models.IntegerField(default="30000")
     stipend=models.IntegerField(default="30000")
     role=models.CharField(max_length=100)
-    aggregate=models.FloatField(default=0.0)
+    aggregate=models.FloatField(default=7.0)
     joblocation=models.CharField(max_length=100, default="Bangalore")
     dateofdrive=models.DateField()
     lastdate=models.DateField()
@@ -117,10 +100,11 @@ class All_Companies(models.Model):
     
 class Reg_Com(models.Model):
     ID=models.AutoField(primary_key=True)
+    usn = models.ForeignKey(User, on_delete=models.CASCADE)
     company_name=models.CharField(max_length=100,choices=COMPANY, unique=True, blank=False)
     desc=models.TextField()
     branch=models.CharField(max_length=100)
-    catagory=models.CharField(max_length=50,choices=CATAGORY,default='IT')
+    category=models.CharField(max_length=50,choices=CATEGORY,default='IT')
     salary=models.IntegerField()
     stipend=models.IntegerField(default="30000")
     role=models.CharField(max_length=100)
@@ -130,34 +114,26 @@ class Reg_Com(models.Model):
 
     def __str__(self):
         return self.company_name
-
     
-class Training(models.Model):
-    course_name=models.CharField(max_length=50)
-    sponsor=models.CharField(max_length=50)
-    domain=models.CharField(max_length=50,choices=CATAGORY)
-    eligible_branch=models.CharField(max_length=50)
-    mode=models.CharField(max_length=10,choices=MODE,default='offline')
-    location=models.CharField(max_length=50, blank=True)
-    duration=models.IntegerField()
-    fee=models.IntegerField()
+PLACED=( 
+    ('Yet To Be Placed','NOT PLACED'),
+    ('Placed','PLACED')
+)    
+class StudentDetails(models.Model):
+    ID=models.AutoField(primary_key=True)
+    USN = models.CharField(max_length=10)
+    company_name=models.CharField(max_length=100,choices=COMPANY, blank=False)
+    category=models.CharField(max_length=50,choices=CATEGORY,default='IT')
+    role=models.CharField(max_length=100)
+    joblocation=models.CharField(max_length=100, default="Bangalore")
 
-# class Reg_Com(models.Model):
-#      reg_company_name=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_desc=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_branch=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_category=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_salary=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_stipend=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_role=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_aggregate=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_job_location=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
-#      reg_dateofdrive=models.ForeignKey(All_Companies,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.USN
 
-# class Registration_com(models.Model):
-#     student_usn = models.ForeignKey(Student_Details, on_delete=models.CASCADE)
-#     company_name = models.ForeignKey(All_Companies, on_delete=models.CASCADE)
-#     date_drive = models.DateTimeField(auto_now_add=True)
+class Resume(models.Model):
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to='resumes/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-#     def __str__(self):
-#         return f"{self.student_usn} registered for {self.company_name} on {self.date_drive}"
+    def __str__(self):
+        return self.name

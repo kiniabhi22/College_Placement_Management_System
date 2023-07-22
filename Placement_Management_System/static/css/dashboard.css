@@ -1,7 +1,11 @@
+body{
+  background-color: var(--color-body);
+
+}
 .home-section{
   position: relative;
   background-color: var(--color-body);
-  min-height: 100vh;
+  min-height: 20vh;
   top:0;
   left:78px;
   width: calc(100% - 78px);
@@ -11,13 +15,117 @@
 
 .home-section .text{
   display: inline-block;
-  color:var(--color-default);
+  background-color: var(--color-body);
   font-size: 25px;
   font-weight: 500;
-  margin: 18px;
+  margin: 0px;
+  z-index: 99;
+}
+button{
+  z-index: 1;
+}
+.alert{
+  color: red;
+  font-size: 20px;
+  margin-top: 57px;
+  margin-left: 25vw;
+  width: 40vw;
+  height: 50px;
+  background: yellow;
+  border-radius: 10px;
+  padding-bottom: -5px;
+  padding-left: 25px;
+  padding-top: 10px;
 }
 
 /* .sidebar.open ~ .home-section{
   left:250px;
   width: calc(100% - 250px);
 } */
+
+/* Add styles to the existing classes and elements */
+
+/* Styles for the dashboard text */
+.dashboard-text {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: -40px;
+  margin-top: 40px;
+  margin-left: 30px;
+}
+
+/* Styles for the congratulations message */
+.congrats-message {
+  font-size: 21px;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-left: 30px;
+  color: #006400; /* Dark green color for the text */
+}
+
+.congrats-info {
+  background-color: var(--color-body);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  margin-left: 20px;
+  margin-top: -10px;
+}
+
+/* Add styles for the "Get Job" section */
+
+/* Add styles for the "Get Job" section */
+
+.get-job-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  text-align: left;
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  width: 80vw;
+  height: 50vh;
+  margin-left: 12vw;
+  margin-top: 30px;
+}
+
+/* .get-job-content {
+  max-width: 80vw;
+  margin: 0 auto;
+} */
+
+.get-job-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #180303;
+  margin-left: 35vw;
+}
+
+.get-job-description {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #120505;
+}
+
+.get-job-button {
+  margin-bottom: 40px;
+  margin-left: 28vw;
+}
+
+.get-job-button a {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.get-job-button a:hover {
+  background-color: #0056b3;
+}

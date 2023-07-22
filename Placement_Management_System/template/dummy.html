@@ -210,3 +210,35 @@
 # def companyDereg(request):
 #         companies=Reg_Com.objects.all() 
 #         return render(request,'company_reg.html',{'companies':companies}) 
+
+/////////////////////////////////////////
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign In</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signin.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="post" action="{% url 'signin' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

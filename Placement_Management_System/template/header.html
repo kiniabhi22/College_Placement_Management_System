@@ -15,11 +15,11 @@
       <i class="bx bx-menu" id="btn"></i>
     </div>
     <ul class="nav-list">
-      <li>
+      {% comment %} <li>
         <i class="bx bx-search"></i>
         <input type="text" placeholder="Search...">
          <span class="tooltip">Search</span>
-      </li>
+      </li> {% endcomment %}
       <li>
         <a href="{% url 'dashboard'%}">
           <i class="bx bx-grid-alt"></i>
@@ -55,8 +55,15 @@
           <span class="link_name">Profile</span>
         </a>
         <span class="tooltip">Profile</span>
-      </li>
+      </li> 
       
+      <li>
+        <a href="{% url 'uploadResume' %}">
+          <i class="bx bx-file"></i>
+          <span class="link_name">Resume</span>
+        </a>
+        <span class="tooltip">Resume</span>
+      </li>
       <li>
         <a href="{% url 'signout' %}">
           <i class="bx bx-log-out-circle"></i>
@@ -73,21 +80,24 @@
         <span class="tooltip">Signin</span>
       </li>
       <li>
-        {% comment %} <a href="{% url 'signup' %}">
+  <a href="{% url 'signup' %}">
           <i class="bx bx-user-plus"></i>
           <span class="link_name">Signup</span>
         </a>
         <span class="tooltip">Signup</span>
-      </li> {% endcomment %}
+      </li> 
       {% endif %}
+      {% if user.is_staff %}
       <li>
-        <a href="{% url 'reg_com' %}">
+        <a href="{% url 'studentDetails' %}">
           <i class="bx bx-info-circle"></i>
           <span class="link_name">Student Details</span>
         </a>
         <span class="tooltip">Student Details</span>
       </li>
-      <li class="profile">
+      {% endif %}
+      
+      {% comment %} <li class="profile">
         <div class="profile_details">
           <img src="profile.jpeg" alt="profile image">
           <div class="profile_content">
@@ -96,7 +106,7 @@
           </div>
         </div>
         <i class="bx bx-log-out" id="log_out"></i>
-      </li>
+      </li> {% endcomment %}
     </ul>
   </div>
   {% comment %} <section class="home-section">

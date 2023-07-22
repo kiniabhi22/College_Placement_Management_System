@@ -6,13 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}"> <!-- Add the new CSS file -->
     <title>Home</title>
 </head>
 <body>
     {% include 'header.html' %}
     <section class="home-section">
-        <div class="text">Dashboard</div>
-      </section>
-    
+        <div class="dashboard-text">Dashboard</div>
+        {% if user.is_authenticated %}
+        <br><br><br>
+        <div class="congrats-message">
+            {% with printed_message=False %}
+                {% for detail in deets %}
+                    {% if detail.USN == user.username %}
+                        <p class="congrats-info">
+                            You have been placed in <b>{{ detail.company_name }}</b> with the role <b>{{ detail.role }}</b>. Wish you all the best for your future career!
+                        </p>
+                        {% with printed_message=True %}
+                        {% endwith %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        </div>
+        
+        <br>
+        <p class="congrats-info">
+            Further notice regarding the offer letter and joining date will be clarified by the Training and Placement Office within few days.<br>
+            Please be prepared with the marks card copy that needs to submitted to the Training and Placement Office within 2-3 days.
+        </p>
+        {% else %}
+        <div class="alert">
+        Kindly login to continue your placement journey.
+        </div>
+        {% endif %}
+    </section>
+    <section class="get-job-section">
+        <div class="get-job-content">
+            <h2 class="get-job-heading">Get Job</h2>
+            <p class="get-job-description">
+                "Don't limit yourselves when it comes to placement. Explore all opportunities and reach for the stars!"
+                <br>
+                <br>
+                If you're considering off-campus placements or looking for more options, we've got you covered. Our platform provides resources and support to help you navigate the off-campus placement process. Take control of your career and seize the opportunities that await you!
+            </p>
+            <div class="get-job-button">
+                <a href="{% url 'getJob' %}">Explore Off-Campus Placements</a>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

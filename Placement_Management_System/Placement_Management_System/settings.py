@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'Placement_Management_System.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'placement',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -137,3 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #to be added
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+API_KEY = 'fe3754cf6140d0d631fffbd04b1c707d'
+API_URL = 'http://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=a9637649&app_key=3d5f86d6e2e80e0df942c1561a86de36&results_per_page=20&what=javascript%20developer&content-type=application/json'
+API_ID = '689f1d48'

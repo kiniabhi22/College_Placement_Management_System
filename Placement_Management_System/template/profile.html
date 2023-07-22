@@ -14,46 +14,54 @@
   <table class="invisible-table">
     <thead>
       <tr>
+        <th>Student Details</th>
         <th>Current Education Details</th>
         <th>Past Education Details</th>
-        <th>Student Details</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          <h2>Current Education</h2>
-         
+          {% for i in detail %}
+          {% if user.username == i.USN %}
           <ul>
-            <li>USN: {{ detail.USN }}</li>
-            <li>First Sem GPA: {{ deatail.First_Sem_GPA }}</li>
-            <li>Second Sem GPA: {{ deatail.Second_Sem_GPA }}</li>
-            <li>Third Sem GPA: {{ deatail.Third_Sem_GPA }}</li>
-            <li>Fourth Sem GPA: {{ deatail.Fourth_Sem_GPA }}</li>
+
+            <li>First Name: {{ i.First_Name }}</li>
+            <li>Middle Name: {{ i.Middle_Name }}</li>
+            <li>Last Name: {{ i.Last_Name }}</li>
+            <li>Branch: {{ i.Branch }}</li>
+            <li>Email: {{ i.EMAIL }}</li>
+            <li>Contact Number: {{ i.Contact_Number }}</li>
           </ul>
+          {% endif %}
+          
+          {% endfor %}
+        </td>
+        <td>  
+          {% for i in detail %}     
+          {% if user.username == i.USN %}  
+          <ul>
+            <li>USN: {{ i.USN }}</li>
+            <li>First Sem GPA: {{ i.First_Sem_GPA }}</li>
+            <li>Second Sem GPA: {{ i.Second_Sem_GPA }}</li>
+            <li>Third Sem GPA: {{ i.Third_Sem_GPA }}</li>
+            <li>Fourth Sem GPA: {{ i.Fourth_Sem_GPA }}</li>
+          </ul>
+          {% endif %}
+          {% endfor %}
         </td>
         <td>
-          <h2>Past Education</h2>
+          {% for i in detail %}
+          {% if user.username == i.USN %}
           <ul>
-            <li>Past Education ID: {{ detail.Past_Education_id }}</li>
-            <li>Tenth Scheme: {{ detail.Tenth_Scheme }}</li>
-            <li>Tenth Grade: {{ detail.Tenth_Grade }}</li>
-            <li>Twelfth Scheme: {{ detail.Twelth_Scheme }}</li>
-            <li>Twelfth Grade: {{ detail.Twelth_Grade }}</li>
-            <li>KCET Rank: {{ detail.KCET_Rank }}</li>
+            <li>Tenth Scheme: {{ i.Tenth_Scheme }}</li>
+            <li>Tenth Grade: {{ i.Tenth_Grade }}</li>
+            <li>Twelfth Scheme: {{ i.Twelth_Scheme }}</li>
+            <li>Twelfth Grade: {{ i.Twelth_Grade }}</li>
+            <li>KCET Rank: {{ i.KCET_Rank }}</li>
           </ul>
-        </td>
-        <td>
-          <h2>Student Details</h2>
-          <ul>
-            <li>USN: {{ details.USN }}</li>
-            <li>First Name: {{ detail.First_Name }}</li>
-            <li>Middle Name: {{ detail.Middle_Name }}</li>
-            <li>Last Name: {{ detail.Last_Name }}</li>
-            <li>Branch: {{ detail.Branch }}</li>
-            <li>Email: {{ detail.EMAIL }}</li>
-            <li>Contact Number: {{ detail.Contact_Number }}</li>
-          </ul>
+          {% endif %}
+          {% endfor %}
         </td>
       </tr>
     </tbody>

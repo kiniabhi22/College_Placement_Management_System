@@ -1,23 +1,48 @@
 from django.shortcuts import render,redirect
 #to be added
 from django.http import HttpResponse
-from .models import All_Companies,Training,Reg_Com,Reg_Com,studentProfile
+from .models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth,User
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db.models import Q
+import requests
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
+def job_search(request):
+    print("im inside")
+    query = requests.get('http://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=689f1d48&app_key=fe3754cf6140d0d631fffbd04b1c707d&results_per_page=20&what=javascript%20developer&content-type=application/json').json()
+    print(query)
+    return render(request, 'getJob.html', {'job_results': query})
+
+# def job_search(request):
+#     print("I'm inside")
+#     api_url = 'http://api.adzuna.com/v1/api/jobs/gb/search/1'
+#     api_params = {
+#         'app_id': 'a9637649',
+#         'app_key': '3d5f86d6e2e80e0df942c1561a86de36',
+#         'results_per_page': 30,
+#         'what': 'javascript developer',
+#         'where': 'uk',
+#     }
+#     query = requests.get(api_url, params=api_params)
+#     return render(request, 'getJob.html', {'job_results': query})
 
 
+def dashboard(request):
+    details=StudentDetails.objects.all()
+    return render(request,'dashboard.html',{'deets':details})
 
-# Create your views here. object.remove
 def company_reg(request):
         registeredCompanies = Reg_Com.objects.all()
         current_date = timezone.now().date()
         companies = All_Companies.objects.exclude(Q(company_name__in=Reg_Com.objects.all().values_list('company_name', flat=True)) | Q(lastdate__lt=current_date))
         return render(request, 'company_reg.html', {'companies': companies,'regcompanies':registeredCompanies})
-    
+
+@login_required
 def reg_com(request):
         if request.method=='POST':
             if 'deRegister' in request.POST:
@@ -30,10 +55,11 @@ def reg_com(request):
             id = request.POST.get('register')
             selected_company = All_Companies.objects.get(ID=id)
             obj=Reg_Com.objects.create(
+                    usn=request.user,
                     company_name=selected_company.company_name,
                     desc=selected_company.desc,
                     branch=selected_company.branch,
-                    catagory=selected_company.catagory,
+                    category=selected_company.category,
                     salary=selected_company.salary,
                     stipend=selected_company.stipend,
                     role=selected_company.role,
@@ -43,46 +69,43 @@ def reg_com(request):
                 )
             obj.save()
             registeredCompanies=Reg_Com.objects.all()
+            search_query = request.GET.get('search')
+            if search_query:
+                registeredCompanies = registeredCompanies.filter(usn__icontains=search_query)
             return render(request,'reg_com.html',{'companies':registeredCompanies})
         
         else:
             registeredCompanies = Reg_Com.objects.all()
             return render(request,'reg_com.html',{'companies':registeredCompanies})
-
-
+        
+@login_required
 def all_companies(request):
     obj=All_Companies.objects.all()  #all_com.objects.get(usn=user.usn)
     return render(request,'all_com.html',{'companies':obj})
 
+@login_required
 def studProfile(request):
     details=studentProfile.objects.all()
     return render(request,'profile.html',{'detail':details})
 
-def dashboard(request):
-    return render(request,'dashboard.html') 
+@login_required
+def uploadResume(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        file = request.FILES['resume_file']
+        resume = Resume(name=name, file=file)
+        resume.save()
+        return redirect('viewResume', resume_id=resume.id)
+    return render(request, 'uploadResume.html')
 
-def extra(request):
-    return HttpResponse("hii bro")
+@login_required
+def viewResume(request, resume_id):
+    resume = Resume.objects.get(id=resume_id)
+    return render(request, 'viewResume.html', {'resume': resume})
 
-# def Students(request):
-#     //details=Student_Details.objects.all()
-#     return render(request,'students.html',{'deets':details})
-
-def training(request):
-    train=Training.objects.all()
-    return render(request,'training.html',{'training':train})
-
-# def reg_com(request):
-#     reg=Reg_Com.objects.all()
-#     return render(request,'reg_com.html',{'reg_com':reg})
-
-# def current_views(request):
-#     curr=Current_Models.objects.all()
-#     return render(request,'curr_edu.html',{'currentt':curr})
-
-# def past_views(request):
-#     past=Past_Models.objects.all()
-#     return render(request,'past_edu.html',{'pastt':past})
+def studentDetails(request):
+    details=StudentDetails.objects.all()
+    return render(request,'students.html',{'deets':details})
 
 @csrf_exempt
 def signin(request):
@@ -97,7 +120,6 @@ def signin(request):
         else:
             messages.info(request,("There is some error in Username oe Password. Please try again..."))
             return redirect('signin')
-    
      else:
       return render(request,'signin.html')
 
@@ -110,7 +132,6 @@ def signout(request):
 def signup(request):
      if request.method == 'POST':
         user_name=request.POST.get('username')
-        USN=request.POST.get('usn')
         contact_no=request.POST.get('contact')
         email=request.POST.get('email')
         year=request.POST.get('year')
@@ -128,72 +149,3 @@ def signup(request):
             return redirect("signup")
      else:
         return render(request, "signup.html")
-     
-
-# def register_student(request):
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             # Get the student and company objects
-#             student_id = form.cleaned_data['student_id']
-#             company_id = form.cleaned_data['company_id']
-#             student = Student.objects.get(id=student_id)
-#             company = Company.objects.get(id=company_id)
-
-#             # Check if the student has already registered for the company
-#             if Registration.objects.filter(student=student, company=company).exists():
-#                 return render(request, 'registration_error.html')
-
-#             # Create a new registration object
-#             registration = Registration.objects.create(student=student, company=company)
-
-#             # Redirect the user to the confirmation page
-#             return redirect('registration_success')
-#     else:
-#         form = RegistrationForm()
-
-#     return render(request, 'register_student.html', {'form': form})
-
-
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-# @csrf_exempt
-# def login(request):
-#     if(request.method=='POST'):
-#         user_name=request.POST.get('username')
-#         pass_word=request.POST.get('password')
-#         user=authenticate(username=user_name,password=pass_word)
-#         if(user is not None):
-#             auth.login(request,user)
-#             return redirect("/")
-#         else:
-#             messages.info(request,"Invalid Credentials")
-#             return render(request,'login.html')
-#     else:
-#         return render(request, "login.html")
-    
-
-# def logout(request):
-#     auth.logout(request)
-#     return redirect('/')
-
-# @csrf_exempt
-# def register(request):
-#     if request.method == 'POST':
-#         first_name=request.POST.get('firstname')
-#         last_name=request.POST.get('lastname')
-#         user_name=request.POST.get('username')
-#         email=request.POST.get('email')
-#         password=request.POST.get('password')
-#         password1=request.POST.get('password1')
-#         if password==password1:
-#             user=User.objects.create_user(first_name=first_name, last_name=last_name, username=user_name, email=email, password=password)
-#             user.save()
-#             print("User created")
-#             return redirect("/login")
-#         else:
-#             messages.info(request, "Password doesn't match")
-#             return redirect("register")
-#     else:
-#         return render(request, "register.html")
